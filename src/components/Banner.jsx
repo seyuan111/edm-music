@@ -6,7 +6,7 @@ const Banner = () => {
     "Discover the latest hits and enjoy uninterrupted music streaming on Diesel FM all day long!";
 
   return (
-    <div className="w-full overflow-hidden bg-black text-blue-200 py-1">
+    <div className="w-full overflow-hidden bg-black text-purple-200 py-1">
       <div className="inline-block whitespace-nowrap animate-marquee">
         <span className="text-sm md:text-base">{randomSentence}</span>
       </div>
