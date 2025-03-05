@@ -2,6 +2,7 @@ import { useState } from "react";
 import Header from "./components/Header";
 import Tabs from "./components/Tabs";
 import StationList from "./components/StationList";
+import Banner from './components/Banner';
 import "./App.css";
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-100 p-4">
       <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-6">
+        <Banner />
         <Header />
         <Tabs
           genres={["HOUSE", "TECHNO", "TRANCE", "HARDSTYLE", "JUNGLE", "LOUNGE", "FAVORITE", "INTERNA"]}
