@@ -2,24 +2,20 @@ import { useState, useRef, useEffect } from "react";
 import { FaPlay, FaPause, FaForward, FaBackward, FaVolumeUp, FaVolumeMute, FaSignal, FaRedo, FaRandom } from "react-icons/fa";
 
 function Header() {
-  // State for volume level (0 to 1), mute state, and previous volume
-  const [volume, setVolume] = useState(1); // Default volume is 100% (1)
-  const [isMuted, setIsMuted] = useState(false); // Track mute state
-  const [previousVolume, setPreviousVolume] = useState(1); // Store volume before muting
-  const [isPlaying, setIsPlaying] = useState(false); // Track play/pause state
-  const [isShuffled, setIsShuffled] = useState(false); // Track shuffle state
+  const [volume, setVolume] = useState(1);
+  const [isMuted, setIsMuted] = useState(false);
+  const [previousVolume, setPreviousVolume] = useState(1);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isShuffled, setIsShuffled] = useState(false);
 
-  // Reference to the audio element
   const audioRef = useRef(null);
 
-  // Update the audio volume whenever the volume or mute state changes
   useEffect(() => {
     if (audioRef.current) {
-      audioRef.current.volume = isMuted ? 0 : volume; // Set volume to 0 if muted, otherwise use the slider value
+      audioRef.current.volume = isMuted ? 0 : volume;
     }
   }, [volume, isMuted]);
 
-  // Toggle play/pause for the audio
   const togglePlayPause = () => {
     if (audioRef.current) {
       if (isPlaying) {
@@ -31,53 +27,65 @@ function Header() {
     }
   };
 
-  // Handle volume change
   const handleVolumeChange = (e) => {
     const newVolume = parseFloat(e.target.value);
     setVolume(newVolume);
-    setIsMuted(newVolume === 0); // Automatically mute if volume is set to 0
+    setIsMuted(newVolume === 0);
     if (newVolume > 0) {
-      setPreviousVolume(newVolume); // Update previous volume if not muted
+      setPreviousVolume(newVolume);
     }
   };
 
-  // Handle mute/unmute toggle
   const toggleMute = () => {
     if (isMuted) {
-      // Unmute: restore the previous volume
       setVolume(previousVolume);
     } else {
-      // Mute: store the current volume and set volume to 0
       setPreviousVolume(volume);
       setVolume(0);
     }
     setIsMuted(!isMuted);
   };
 
-  // Handle replay (restart the audio)
   const handleReplay = () => {
     if (audioRef.current) {
-      audioRef.current.pause(); // Pause the audio
-      audioRef.current.currentTime = 0; // Reset to the beginning
-      audioRef.current.play(); // Play again
-      setIsPlaying(true); // Update the play state
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      audioRef.current.play();
+      setIsPlaying(true);
     }
   };
 
-  // Handle shuffle toggle (for demonstration; actual shuffle logic depends on playlist implementation)
   const toggleShuffle = () => {
     setIsShuffled(!isShuffled);
     console.log("Shuffle toggled:", !isShuffled);
   };
 
-  // Placeholder for waveform (boom volume)
-  const WaveformPlaceholder = () => (
+  // Waveform Component with playing/paused states
+  const Waveform = ({ isPlaying }) => (
     <div className="flex items-center space-x-1 ml-2">
-      <div className="h-2 w-1 bg-gray-400"></div>
-      <div className="h-4 w-1 bg-gray-400"></div>
-      <div className="h-3 w-1 bg-gray-400"></div>
-      <div className="h-5 w-1 bg-gray-400"></div>
-      <div className="h-2 w-1 bg-gray-400"></div>
+      <style>{`
+        @keyframes wave {
+          0% { height: 0.5rem; }
+          50% { height: 1.25rem; }
+          100% { height: 0.5rem; }
+        }
+        .wave-bar {
+          width: 0.25rem;
+          height: 0.75rem; /* Fixed height when not playing */
+          background-color: ${isPlaying ? "#10B981" : "#9CA3AF"}; /* Green when playing, gray when paused */
+          ${isPlaying ? "animation: wave 0.8s infinite ease-in-out;" : ""} /* Animation only when playing */
+        }
+        .wave-bar:nth-child(1) { animation-delay: 0s; }
+        .wave-bar:nth-child(2) { animation-delay: 0.1s; }
+        .wave-bar:nth-child(3) { animation-delay: 0.2s; }
+        .wave-bar:nth-child(4) { animation-delay: 0.3s; }
+        .wave-bar:nth-child(5) { animation-delay: 0.4s; }
+      `}</style>
+      <div className="wave-bar"></div>
+      <div className="wave-bar"></div>
+      <div className="wave-bar"></div>
+      <div className="wave-bar"></div>
+      <div className="wave-bar"></div>
     </div>
   );
 
@@ -87,19 +95,17 @@ function Header() {
       <div className="flex items-center mb-2 md:mb-0">
         <FaSignal className="text-green-500 mr-2" />
         <h1 className="text-sm md:text-lg font-bold">Streaming Live: Diesel FM</h1>
-        <WaveformPlaceholder />
+        <Waveform isPlaying={isPlaying} /> {/* Always show waveform, pass isPlaying prop */}
       </div>
 
       {/* Control Buttons Section */}
       <div className="flex space-x-2 items-center">
-        {/* Audio element (hidden) */}
         <audio
           ref={audioRef}
-          src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" // Replace with a real streaming URL
+          src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
           loop
         />
 
-        {/* Shuffle Button */}
         <button
           onClick={toggleShuffle}
           className={`p-2 hover:bg-gray-300 rounded-full ${isShuffled ? "text-blue-500" : "text-gray-500"}`}
@@ -107,12 +113,10 @@ function Header() {
           <FaRandom />
         </button>
 
-        {/* Backward Button */}
         <button className="p-2 hover:bg-gray-300 rounded-full">
           <FaBackward />
         </button>
 
-        {/* Play/Pause Button */}
         <button
           onClick={togglePlayPause}
           className="p-2 hover:bg-gray-300 rounded-full"
@@ -120,12 +124,10 @@ function Header() {
           {isPlaying ? <FaPause /> : <FaPlay />}
         </button>
 
-        {/* Forward Button */}
         <button className="p-2 hover:bg-gray-300 rounded-full">
           <FaForward />
         </button>
 
-        {/* Replay Button */}
         <button
           onClick={handleReplay}
           className="p-2 hover:bg-gray-300 rounded-full"
@@ -133,7 +135,6 @@ function Header() {
           <FaRedo />
         </button>
 
-        {/* Volume Button (Mute/Unmute Toggle) */}
         <button
           onClick={toggleMute}
           className="p-2 hover:bg-gray-300 rounded-full"
@@ -141,7 +142,6 @@ function Header() {
           {isMuted ? <FaVolumeMute /> : <FaVolumeUp />}
         </button>
 
-        {/* Volume Slider (Always Visible) */}
         <input
           type="range"
           min="0"
