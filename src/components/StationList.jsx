@@ -4,12 +4,12 @@ function StationList({ stations }) {
   return (
     <div className="overflow-x-auto">
       {/* Header Row - Hidden on mobile, displayed as grid on larger screens */}
-      <div className="hidden md:grid md:grid-cols-6 gap-4 font-semibold text-gray-600 border-b pb-2">
-        <div></div>
-        <div>Name of the Station</div>
-        <div>City & Country Origin</div>
+      <div className="hidden items-center justify-center md:grid md:grid-cols-6 gap-2 font-semibold text-gray-600 border-b pb-2 text-md">
+        <div></div> {/* Empty column for consistency */}
+        <div>Station Name</div>
+        <div>City/Country</div>
         <div>Genre</div>
-        <div>Bpm Range</div>
+        <div>BPM</div>
         <div>Rating</div>
       </div>
 

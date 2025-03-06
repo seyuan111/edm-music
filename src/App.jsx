@@ -13,7 +13,7 @@ function App() {
     { id: 1, name: "Station 1", city: "New York, USA", genre: "HOUSE", bpm: "120-130", rating: 5 },
     { id: 2, name: "Station 1", city: "Berlin, Germany", genre: "TECHNO", bpm: "130-140", rating: 4 },
     { id: 3, name: "Station 3", city: "Tokyo, Japan", genre: "TRANCE", bpm: "110-120", rating: 4 },
-    { id: 4, name: "Station 2", city: "New York, USA", genre: "HOUSE", bpm: "120-130", rating: 5 },
+    { id: 4, name: "Station 2", city: "New York, USA", genre: "HOUSE", bpm: "120-130", rating: 3 },
     { id: 5, name: "Station 3", city: "New York, USA", genre: "HOUSE", bpm: "120-130", rating: 5 },
     { id: 6, name: "Station 4", city: "New York, USA", genre: "HOUSE", bpm: "120-130", rating: 5 },
     { id: 7, name: "Station 2", city: "Berlin, Germany", genre: "TECHNO", bpm: "130-140", rating: 4 },
