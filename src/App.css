@@ -1,10 +1,10 @@
 /* Marquee animation for the Banner component */
 @keyframes marquee {
   0% {
-    transform: translateX(100%); /* Start from the right side (off-screen) */
+    transform: translateX(-100%); /* Start from the right side (off-screen) */
   }
   100% {
-    transform: translateX(-100%); /* Move to the left side (off-screen) */
+    transform: translateX(100%); /* Move to the left side (off-screen) */
   }
 }
 
